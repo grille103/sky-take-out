@@ -1,6 +1,7 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
@@ -29,6 +30,7 @@ import java.util.Map;
 @Api(tags = "员工相关接口")
 public class EmployeeController {
 
+    //依赖注入
     @Autowired
     private EmployeeService employeeService;
     @Autowired
@@ -74,6 +76,19 @@ public class EmployeeController {
     @ApiOperation(value = "员工退出")
     public Result<String> logout() {
         return Result.success();
+    }
+
+    /**
+     * 新增员工
+     * @param employeeDTO
+     * @return
+     */
+    @PostMapping //因为这个类上面存在路径 所以在这里只需要添加这个注解就可以
+    @ApiOperation(value = "新增员工")
+    public Result save(@RequestBody EmployeeDTO employeeDTO){  //这里是json格式的数据,所以要添加@RequestBody注解
+        log.info("新增员工：{}",employeeDTO); //这里的花括号是占位符，会将后面的数据自动拼接到里面
+        employeeService.save(employeeDTO); //调用save方法   --》service中
+        return Result.success(); //代表返回成功
     }
 
 }
