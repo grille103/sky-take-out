@@ -100,6 +100,20 @@ public class EmployeeController {
     public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){ //不是json数据格式，所以不需要添加@RequestBody注解
         log.info("员工分页查询，数据是：{}",employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
-        return Result.success(pageResult);
+        return Result.success(pageResult); //用于显示数据
+    }
+
+    /**
+     *启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation(value = "启用禁用员工账号")
+    public Result startOrStop(@PathVariable Integer status,long id){//@PathVariable注解用于传参，id是地址栏传参，不用添加@PathVariable注解
+        log.info("启用禁用员工账号:{},{}",status,id); //按照顺序输出
+        employeeService.startOrStop(status,id);
+        return Result.success();
     }
 }
